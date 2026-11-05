@@ -16,7 +16,7 @@ Build order: `identity` → `customers`
 The full first initiative covers the two modules above:
 
 - `identity`: login endpoint and protected API access using Django REST Framework authentication.
-- `customers`: customer fields requested so far: name, email, phone, address lane 1, address lane 2, address lane 3, bank name, account holder name, account number, zip address, IFSC, and notes.
+- `customers`: customer fields requested so far: name, email, phone, address lane 1, address lane 2, address lane 3, bank name, account holder name, account number, SWIFT address, TRN, and notes.
 - Customer list responses expose name, email, and phone, while detail responses expose the complete record.
 - Customer list supports filtering by name and phone.
 - Django admin exposes login and customer management.

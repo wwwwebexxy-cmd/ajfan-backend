@@ -47,8 +47,8 @@ class CustomerApiTests(TestCase):
             "bank_name": "Example Bank",
             "account_holder_name": "Amina Rahman",
             "account_number": "1234567890",
-            "zip_address": "00000",
-            "ifsc": "EXMP0000123",
+            "swift_address": "SWIFT-ADDRESS-1",
+            "trn": "TRN-123456789",
             "notes": "Preferred contact by email.",
         }
 
@@ -59,6 +59,8 @@ class CustomerApiTests(TestCase):
         customer = Customer.objects.get()
         self.assertEqual(customer.name, payload["name"])
         self.assertEqual(customer.account_number, payload["account_number"])
+        self.assertEqual(customer.swift_address, payload["swift_address"])
+        self.assertEqual(customer.trn, payload["trn"])
         self.assertEqual(response.data["email"], payload["email"])
 
     def test_customer_create_requires_name_email_and_phone(self):

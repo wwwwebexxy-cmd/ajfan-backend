@@ -27,8 +27,8 @@ The customer create endpoint accepts these fields:
 | `bank_name` | string | no |
 | `account_holder_name` | string | no |
 | `account_number` | string | no |
-| `zip_address` | string | no |
-| `ifsc` | string | no |
+| `swift_address` | string | no |
+| `trn` | string | no |
 | `notes` | string | no |
 
 The list response includes at minimum `id`, `name`, `email`, and `phone`, plus

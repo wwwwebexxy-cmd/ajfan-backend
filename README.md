@@ -18,8 +18,8 @@ Use the email and password created by `createsuperuser` at:
 
 The API requires authentication. `POST /api/customers/` creates a customer;
 `GET /api/customers/` lists customers with `id`, `name`, `email`, `phone`, and
-timestamps. Bank and account fields are accepted on create but are not exposed
-in the list response.
+timestamps. Bank and account fields, including SWIFT address and TRN, are
+accepted on create but are not exposed in the list response.
 
 For anything beyond local development, set `DJANGO_SECRET_KEY`, disable
 `DJANGO_DEBUG`, configure `DJANGO_ALLOWED_HOSTS`, and serve the API over HTTPS.
