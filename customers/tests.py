@@ -119,7 +119,7 @@ class CustomerApiTests(TestCase):
         self.assertEqual(response.data["iban"], customer.iban)
         self.assertEqual(response.data["notes"], customer.notes)
 
-    def test_authenticated_admin_can_delete_customer(self):
+    def test_authenticated_admin_can_soft_delete_customer(self):
         self.authenticate()
         customer = Customer.objects.create(
             name="Delete Customer",
@@ -130,7 +130,14 @@ class CustomerApiTests(TestCase):
         response = self.client.delete(f"/api/customers/{customer.id}/")
 
         self.assertEqual(response.status_code, 204)
-        self.assertFalse(Customer.objects.filter(id=customer.id).exists())
+        customer.refresh_from_db()
+        self.assertTrue(customer.is_deleted)
+        self.assertIsNotNone(customer.deleted_at)
+
+        list_response = self.client.get("/api/customers/")
+
+        self.assertEqual(list_response.status_code, 200)
+        self.assertNotIn(customer.id, [item["id"] for item in list_response.data])
 
     def test_admin_can_open_customer_list(self):
         Customer.objects.create(

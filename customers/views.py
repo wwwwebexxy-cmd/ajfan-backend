@@ -7,7 +7,7 @@ from .serializers import CustomerCreateSerializer, CustomerDetailSerializer, Cus
 
 
 class CustomerListCreateView(generics.ListCreateAPIView):
-    queryset = Customer.objects.all()
+    queryset = Customer.objects.filter(is_deleted=False)
     permission_classes = (IsAdminUser,)
     authentication_classes = (BasicAuthentication, SessionAuthentication)
 
@@ -18,7 +18,10 @@ class CustomerListCreateView(generics.ListCreateAPIView):
 
 
 class CustomerDetailView(generics.RetrieveDestroyAPIView):
-    queryset = Customer.objects.all()
+    queryset = Customer.objects.filter(is_deleted=False)
     serializer_class = CustomerDetailSerializer
     permission_classes = (IsAdminUser,)
     authentication_classes = (BasicAuthentication, SessionAuthentication)
+
+    def perform_destroy(self, instance):
+        instance.soft_delete()

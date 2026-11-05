@@ -8,9 +8,9 @@ create customer records and list existing records. Django admin must be
 available at `/ajifan-documents/` with email/password login and customer
 management.
 
-This slice does not implement the frontend, customer detail/edit screens,
-search/filtering, API token login, logout, deployment, cloud resources, or
-production database configuration.
+This slice does not implement customer edit screens, search/filtering, API
+token login, logout, deployment, cloud resources, or production database
+configuration.
 
 ## Customer data contract
 
@@ -33,8 +33,8 @@ The customer create endpoint accepts these fields:
 | `notes` | string | no |
 
 The list response includes at minimum `id`, `name`, `email`, and `phone`, plus
-the server timestamps if present. A later detail endpoint will expose the
-complete record.
+the server timestamps if present. The detail endpoint exposes the complete
+record.
 
 ## API contract
 
@@ -44,7 +44,9 @@ complete record.
   first.
 - `GET /api/customers/<id>/` returns HTTP `200` with the complete customer
   record for an authenticated admin.
-- `DELETE /api/customers/<id>/` deletes the customer and returns HTTP `204`.
+- `DELETE /api/customers/<id>/` soft-deletes the customer and returns HTTP
+  `204`; the record remains in the database with deletion metadata but is
+  excluded from active list/detail responses.
 - Only authenticated staff/admin users may access the API; non-staff users
   return HTTP `403`.
 - Unauthenticated API requests return HTTP `401`.
@@ -60,6 +62,7 @@ complete record.
 - The admin login accepts email and password.
 - After login, the admin can add and list customers.
 - The admin customer list shows name, email, and phone.
+- The admin can view complete customer details and soft-delete a customer.
 - No existing project deployment settings, credentials, data, domains, or
   server configuration are copied into this project.
 

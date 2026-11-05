@@ -7,7 +7,7 @@ configuration from another project.
 | Module id | Responsibility | Depends on |
 |---|---|---|
 | identity | Email/password login for the admin/API user, authenticated API access, logout, and Django admin access | — |
-| customers | Customer record storage, validation, create/list/detail/update APIs, name/phone filtering, and Django admin management | identity |
+| customers | Customer record storage, validation, create/list/detail APIs, soft delete, name/phone filtering, and Django admin management | identity |
 
 Build order: `identity` → `customers`
 
@@ -33,5 +33,6 @@ The current approved slice is deliberately smaller than the full initiative:
 - Django admin customer management at `/ajifan-documents/`.
 - Email/password login screen supplied by Django admin at that path.
 
-Customer detail, edit, search/filter, API token login, logout, and frontend
-integration remain subsequent slices unless explicitly pulled into this one.
+Customer edit, search/filter, API token login, and logout remain subsequent
+slices unless explicitly pulled into this one. The frontend customer create,
+list, view, and soft-delete actions are now integrated.
