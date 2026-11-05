@@ -8,6 +8,7 @@ urlpatterns = [
     path("ajifan-documents/", admin.site.urls),
     path("api/customers/", include("customers.urls")),
     path("api/services/", include("services.urls")),
+    path("api/sales-invoices/", include("sales.urls")),
 ]
 
 if settings.DEBUG:
