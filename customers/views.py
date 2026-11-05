@@ -3,7 +3,7 @@ from rest_framework.authentication import BasicAuthentication, SessionAuthentica
 from rest_framework.permissions import IsAdminUser
 
 from .models import Customer
-from .serializers import CustomerCreateSerializer, CustomerListSerializer
+from .serializers import CustomerCreateSerializer, CustomerDetailSerializer, CustomerListSerializer
 
 
 class CustomerListCreateView(generics.ListCreateAPIView):
@@ -15,3 +15,10 @@ class CustomerListCreateView(generics.ListCreateAPIView):
         if self.request.method == "GET":
             return CustomerListSerializer
         return CustomerCreateSerializer
+
+
+class CustomerDetailView(generics.RetrieveDestroyAPIView):
+    queryset = Customer.objects.all()
+    serializer_class = CustomerDetailSerializer
+    permission_classes = (IsAdminUser,)
+    authentication_classes = (BasicAuthentication, SessionAuthentication)

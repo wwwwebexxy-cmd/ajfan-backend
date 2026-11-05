@@ -42,6 +42,9 @@ complete record.
   created record.
 - `GET /api/customers/` returns HTTP `200` with a list of customers, newest
   first.
+- `GET /api/customers/<id>/` returns HTTP `200` with the complete customer
+  record for an authenticated admin.
+- `DELETE /api/customers/<id>/` deletes the customer and returns HTTP `204`.
 - Only authenticated staff/admin users may access the API; non-staff users
   return HTTP `403`.
 - Unauthenticated API requests return HTTP `401`.

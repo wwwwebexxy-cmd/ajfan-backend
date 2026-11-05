@@ -20,6 +20,8 @@ The API requires authentication. `POST /api/customers/` creates a customer;
 `GET /api/customers/` lists customers with `id`, `name`, `email`, `phone`, and
 timestamps. Bank and account fields, including SWIFT address, IBAN, and TRN, are
 accepted on create but are not exposed in the list response.
+Use `GET /api/customers/<id>/` for the complete customer details and
+`DELETE /api/customers/<id>/` to remove a customer.
 
 For anything beyond local development, set `DJANGO_SECRET_KEY`, disable
 `DJANGO_DEBUG`, configure `DJANGO_ALLOWED_HOSTS`, and serve the API over HTTPS.

@@ -27,6 +27,11 @@ class CustomerCreateSerializer(serializers.ModelSerializer):
         read_only_fields = ("id", "created_at", "updated_at")
 
 
+class CustomerDetailSerializer(CustomerCreateSerializer):
+    class Meta(CustomerCreateSerializer.Meta):
+        read_only_fields = CustomerCreateSerializer.Meta.fields
+
+
 class CustomerListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Customer

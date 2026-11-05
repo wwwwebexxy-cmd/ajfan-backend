@@ -97,6 +97,41 @@ class CustomerApiTests(TestCase):
             {"id", "name", "email", "phone", "created_at", "updated_at"},
         )
 
+    def test_authenticated_admin_can_view_customer_details(self):
+        self.authenticate()
+        customer = Customer.objects.create(
+            name="Detailed Customer",
+            email="detail@example.com",
+            phone="4444444444",
+            address_line_1="Office 1",
+            bank_name="Example Bank",
+            account_number="1234567890",
+            swift_address="SWIFT-ADDRESS-2",
+            iban="AE070331234567890123456",
+            trn="TRN-987654321",
+            notes="Detail note",
+        )
+
+        response = self.client.get(f"/api/customers/{customer.id}/")
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data["name"], customer.name)
+        self.assertEqual(response.data["iban"], customer.iban)
+        self.assertEqual(response.data["notes"], customer.notes)
+
+    def test_authenticated_admin_can_delete_customer(self):
+        self.authenticate()
+        customer = Customer.objects.create(
+            name="Delete Customer",
+            email="delete@example.com",
+            phone="5555555555",
+        )
+
+        response = self.client.delete(f"/api/customers/{customer.id}/")
+
+        self.assertEqual(response.status_code, 204)
+        self.assertFalse(Customer.objects.filter(id=customer.id).exists())
+
     def test_admin_can_open_customer_list(self):
         Customer.objects.create(
             name="Admin Visible Customer",
