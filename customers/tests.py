@@ -48,6 +48,7 @@ class CustomerApiTests(TestCase):
             "account_holder_name": "Amina Rahman",
             "account_number": "1234567890",
             "swift_address": "SWIFT-ADDRESS-1",
+            "iban": "AE070331234567890123456",
             "trn": "TRN-123456789",
             "notes": "Preferred contact by email.",
         }
@@ -60,6 +61,7 @@ class CustomerApiTests(TestCase):
         self.assertEqual(customer.name, payload["name"])
         self.assertEqual(customer.account_number, payload["account_number"])
         self.assertEqual(customer.swift_address, payload["swift_address"])
+        self.assertEqual(customer.iban, payload["iban"])
         self.assertEqual(customer.trn, payload["trn"])
         self.assertEqual(response.data["email"], payload["email"])
 

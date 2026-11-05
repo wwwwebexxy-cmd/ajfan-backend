@@ -18,6 +18,7 @@ class CustomerCreateSerializer(serializers.ModelSerializer):
             "account_holder_name",
             "account_number",
             "swift_address",
+            "iban",
             "trn",
             "notes",
             "created_at",

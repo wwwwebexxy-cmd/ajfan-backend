@@ -12,6 +12,7 @@ class Customer(models.Model):
     account_holder_name = models.CharField(max_length=150, blank=True)
     account_number = models.CharField(max_length=64, blank=True)
     swift_address = models.CharField(max_length=255, blank=True)
+    iban = models.CharField(max_length=34, blank=True)
     trn = models.CharField(max_length=32, blank=True)
     notes = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)

@@ -28,6 +28,7 @@ The customer create endpoint accepts these fields:
 | `account_holder_name` | string | no |
 | `account_number` | string | no |
 | `swift_address` | string | no |
+| `iban` | string | no |
 | `trn` | string | no |
 | `notes` | string | no |
 
