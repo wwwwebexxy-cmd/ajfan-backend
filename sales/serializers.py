@@ -95,6 +95,7 @@ class SalesInvoiceSerializer(serializers.ModelSerializer):
             "total_amount",
             "received_amount",
             "balance_amount",
+            "payment_mode",
             "paid_by_staff",
             "staff",
             "staff_name",

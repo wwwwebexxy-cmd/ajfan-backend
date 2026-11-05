@@ -9,6 +9,12 @@ from services.models import Service
 
 
 class SalesInvoice(models.Model):
+    PAYMENT_MODE_CHOICES = (
+        ("cash", "Cash"),
+        ("bank", "Bank"),
+        ("card", "Card"),
+    )
+
     invoice_number_value = models.PositiveIntegerField(
         unique=True,
         null=True,
@@ -26,6 +32,7 @@ class SalesInvoice(models.Model):
     total_amount = models.DecimalField(max_digits=12, decimal_places=2, default=Decimal("0.00"))
     received_amount = models.DecimalField(max_digits=12, decimal_places=2, default=Decimal("0.00"))
     balance_amount = models.DecimalField(max_digits=12, decimal_places=2, default=Decimal("0.00"))
+    payment_mode = models.CharField(max_length=12, choices=PAYMENT_MODE_CHOICES, default="cash")
     paid_by_staff = models.BooleanField(default=False)
     staff = models.ForeignKey(
         settings.AUTH_USER_MODEL,

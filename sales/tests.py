@@ -65,6 +65,7 @@ class SalesInvoiceApiTests(TestCase):
             ],
             "discount_amount": "20.00",
             "received_amount": "100.00",
+            "payment_mode": "bank",
             "paid_by_staff": False,
             "notes": "Invoice note",
         }
@@ -100,6 +101,7 @@ class SalesInvoiceApiTests(TestCase):
         self.assertEqual(response.data["subtotal"], "310.00")
         self.assertEqual(response.data["total_amount"], "290.00")
         self.assertEqual(response.data["balance_amount"], "190.00")
+        self.assertEqual(response.data["payment_mode"], "bank")
         self.assertEqual(len(response.data["items"]), 2)
         self.assertEqual(response.data["items"][0]["line_total"], "250.00")
 
