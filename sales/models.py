@@ -1,5 +1,4 @@
 from decimal import Decimal
-from uuid import uuid4
 
 from django.conf import settings
 from django.db import models
@@ -83,21 +82,6 @@ class InvoiceNumberSequence(models.Model):
 
     def __str__(self):
         return f"Next sales invoice number: {self.next_number}"
-
-
-class InvoiceNumberReservation(models.Model):
-    number = models.PositiveIntegerField(unique=True)
-    token = models.UUIDField(default=uuid4, unique=True, editable=False)
-    reserved_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    created_at = models.DateTimeField(auto_now_add=True)
-    expires_at = models.DateTimeField()
-    used_at = models.DateTimeField(null=True, blank=True)
-
-    class Meta:
-        ordering = ("-created_at",)
-
-    def __str__(self):
-        return f"Reserved sales invoice number: {self.number:03d}"
 
 
 class SalesInvoiceItem(models.Model):

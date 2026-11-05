@@ -38,11 +38,6 @@ class SalesInvoiceApiTests(TestCase):
     def authenticate(self):
         self.client.force_authenticate(user=self.user)
 
-    def reserve_invoice_number(self):
-        response = self.client.post("/api/sales-invoices/generate-number/", {}, format="json")
-        self.assertEqual(response.status_code, 201)
-        return response.data
-
     def payload(self):
         today = date.today()
         payload = {
@@ -73,7 +68,6 @@ class SalesInvoiceApiTests(TestCase):
             "paid_by_staff": False,
             "notes": "Invoice note",
         }
-        payload["reservation_token"] = self.reserve_invoice_number()["reservation_token"]
         return payload
 
     def test_anonymous_invoice_list_is_rejected(self):
@@ -81,15 +75,20 @@ class SalesInvoiceApiTests(TestCase):
 
         self.assertEqual(response.status_code, 401)
 
-    def test_admin_can_generate_sequential_zero_padded_numbers(self):
+    def test_admin_can_create_sequential_zero_padded_numbers(self):
         self.authenticate()
 
-        first = self.reserve_invoice_number()
-        second = self.reserve_invoice_number()
+        first_response = self.client.post(
+            "/api/sales-invoices/", self.payload(), format="json"
+        )
+        second_response = self.client.post(
+            "/api/sales-invoices/", self.payload(), format="json"
+        )
 
-        self.assertEqual(first["invoice_number"], "001")
-        self.assertEqual(second["invoice_number"], "002")
-        self.assertNotEqual(first["reservation_token"], second["reservation_token"])
+        self.assertEqual(first_response.status_code, 201)
+        self.assertEqual(second_response.status_code, 201)
+        self.assertEqual(first_response.data["invoice_number"], "001")
+        self.assertEqual(second_response.data["invoice_number"], "002")
 
     def test_admin_can_create_invoice_with_generated_number_and_totals(self):
         self.authenticate()
