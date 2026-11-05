@@ -1,0 +1,11 @@
+from django.urls import path
+
+from .views import ServiceDetailView, ServiceListCreateView
+
+
+app_name = "services"
+
+urlpatterns = [
+    path("", ServiceListCreateView.as_view(), name="service-list-create"),
+    path("<int:pk>/", ServiceDetailView.as_view(), name="service-detail"),
+]

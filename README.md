@@ -26,6 +26,11 @@ Use `GET /api/customers/<id>/` for the complete customer details and
 Deletion is soft delete: the database record is retained and marked deleted,
 while active customer lists no longer include it.
 
+The service API is available at `/api/services/`. It supports authenticated
+service create/list/view/edit/soft-delete actions and image uploads. Uploaded
+images are stored under the local `media/services/` directory, which is ignored
+by Git.
+
 For anything beyond local development, set `DJANGO_SECRET_KEY`, disable
 `DJANGO_DEBUG`, configure `DJANGO_ALLOWED_HOSTS`, and serve the API over HTTPS.
 
