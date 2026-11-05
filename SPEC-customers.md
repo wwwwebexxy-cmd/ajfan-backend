@@ -64,7 +64,8 @@ complete record.
 - Python 3.12+
 - Django 5.2+
 - Django REST Framework 3.16+
-- SQLite for local development and tests only
+- SQLite for local development/tests when `DJANGO_DB_ENGINE` is unset
+- MySQL 8.0 supported through environment-based settings
 
 ## Commands
 

@@ -24,6 +24,31 @@ in the list response.
 For anything beyond local development, set `DJANGO_SECRET_KEY`, disable
 `DJANGO_DEBUG`, configure `DJANGO_ALLOWED_HOSTS`, and serve the API over HTTPS.
 
+## MySQL Workbench
+
+The backend supports a separate local MySQL database. In MySQL Workbench, use
+the AJFAN connection at `127.0.0.1:3306` and create the new schema:
+
+```sql
+CREATE DATABASE IF NOT EXISTS ajfan_backend
+  CHARACTER SET utf8mb4
+  COLLATE utf8mb4_unicode_ci;
+```
+
+Then set these environment variables before running migrations. Keep the real
+password only in the local environment; never commit a `.env` file.
+
+```text
+DJANGO_DB_ENGINE=mysql
+DJANGO_DB_NAME=ajfan_backend
+DJANGO_DB_USER=root
+DJANGO_DB_PASSWORD=your-local-mysql-password
+DJANGO_DB_HOST=127.0.0.1
+DJANGO_DB_PORT=3306
+```
+
+Run `python manage.py migrate` after the schema exists.
+
 ## Verification
 
 ```powershell
