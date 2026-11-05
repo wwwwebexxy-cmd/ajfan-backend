@@ -8,9 +8,8 @@ create customer records and list existing records. Django admin must be
 available at `/ajifan-documents/` with email/password login and customer
 management.
 
-This slice does not implement customer edit screens, search/filtering, API
-token login, logout, deployment, cloud resources, or production database
-configuration.
+This slice does not implement customer edit screens, API token login, logout,
+deployment, cloud resources, or production database configuration.
 
 ## Customer data contract
 
@@ -62,6 +61,7 @@ record.
 - The admin login accepts email and password.
 - After login, the admin can add and list customers.
 - The admin customer list shows name, email, and phone.
+- The admin customer list can be filtered instantly by name, email, or phone.
 - The admin can view complete customer details and soft-delete a customer.
 - No existing project deployment settings, credentials, data, domains, or
   server configuration are copied into this project.

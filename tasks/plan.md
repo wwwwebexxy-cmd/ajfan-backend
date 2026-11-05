@@ -57,5 +57,5 @@ Build the first independent AJFAN Django/DRF backend slice in
 
 ## Out of scope
 
-Frontend navigation/seed, customer edit/search, API token login, logout,
+Frontend navigation/seed, customer edit, API token login, logout,
 deployment, cloud resources, production database, and data migration.

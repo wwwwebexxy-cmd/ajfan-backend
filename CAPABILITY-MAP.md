@@ -18,7 +18,7 @@ The full first initiative covers the two modules above:
 - `identity`: login endpoint and protected API access using Django REST Framework authentication.
 - `customers`: customer fields requested so far: name, email, phone, address lane 1, address lane 2, address lane 3, bank name, account holder name, account number, SWIFT address, IBAN, TRN, and notes.
 - Customer list responses expose name, email, and phone, while detail responses expose the complete record.
-- Customer list supports filtering by name and phone.
+- Frontend customer list supports instant local filtering by name, email, and phone.
 - Django admin exposes login and customer management.
 
 Frontend screens, deployment, cloud resources, production database setup,
@@ -33,6 +33,6 @@ The current approved slice is deliberately smaller than the full initiative:
 - Django admin customer management at `/ajifan-documents/`.
 - Email/password login screen supplied by Django admin at that path.
 
-Customer edit, search/filter, API token login, and logout remain subsequent
+Customer edit, API token login, and logout remain subsequent
 slices unless explicitly pulled into this one. The frontend customer create,
 list, view, and soft-delete actions are now integrated.
