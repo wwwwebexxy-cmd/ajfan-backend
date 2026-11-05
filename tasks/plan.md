@@ -10,8 +10,9 @@ Build the first independent AJFAN Django/DRF backend slice in
 
 - Use a custom Django user model with email as the login identifier from the
   first migration, avoiding a later auth migration.
-- Use Django session authentication for the admin and DRF API in this slice;
-  API token login is a later slice.
+- Use Django session authentication for the admin and DRF API, with HTTP Basic
+  authentication available for API clients in this slice; API token login is a
+  later slice.
 - Use SQLite for local development/tests only and read the Django secret key
   from an environment variable with a safe local fallback.
 - Use DRF `ListCreateAPIView` with `IsAuthenticated`; validation remains in the
@@ -32,7 +33,7 @@ Build the first independent AJFAN Django/DRF backend slice in
 
 ### Phase 2: Customer create/list vertical slice
 
-- [ ] Task 2: Add Customer model, admin, serializer, and protected API
+- [x] Task 2: Add Customer model, admin, serializer, and protected API
   - Acceptance: authenticated `POST /api/customers/` validates and saves all
     requested fields; authenticated `GET /api/customers/` returns newest-first
     records with name, email, and phone; anonymous requests return `401`.
@@ -41,9 +42,9 @@ Build the first independent AJFAN Django/DRF backend slice in
 
 ### Checkpoint: First delivery
 
-- [ ] Full test suite passes with `python manage.py test`.
-- [ ] API and admin routes are verified with Django's test client.
-- [ ] No deployment settings, credentials, secrets, or old project resources
+- [x] Full test suite passes with `python manage.py test`.
+- [x] API and admin routes are verified with Django's test client.
+- [x] No deployment settings, credentials, secrets, or old project resources
       are present.
 
 ## Risks and mitigations

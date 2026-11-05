@@ -41,10 +41,14 @@ complete record.
   created record.
 - `GET /api/customers/` returns HTTP `200` with a list of customers, newest
   first.
+- Only authenticated staff/admin users may access the API; non-staff users
+  return HTTP `403`.
 - Unauthenticated API requests return HTTP `401`.
 - Invalid create data returns HTTP `400` with field-level validation errors.
 - The API uses plural resource naming and snake_case field names matching the
   Django model.
+- API authentication accepts HTTP Basic credentials and Django admin session
+  authentication; production traffic must use HTTPS.
 
 ## Admin contract
 
@@ -94,7 +98,7 @@ requirements.txt          Runtime dependencies
   credentials out of source control, and run Django checks/tests.
 - Ask first: deployment, cloud resources, production database, frontend
   integration, or any data migration.
-- Never: reuse JRC/EEHOOK or any previous project resource, copy `.env` files,
+- Never: reuse any previous project resource, copy `.env` files,
   commit secrets, or change another project.
 
 ## Success criteria

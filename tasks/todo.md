@@ -5,12 +5,12 @@
   - Verify: focused tests and `python manage.py check`.
   - Dependencies: None.
 
-- [ ] Task 2: Add Customer model, admin, serializer, and protected API
+- [x] Task 2: Add Customer model, admin, serializer, and protected API
   - Acceptance: authenticated create/list API, requested fields, anonymous rejection.
   - Verify: customer API tests and `python manage.py check`.
   - Dependencies: Task 1.
 
 ## Checkpoint
 
-- [ ] Full `python manage.py test` suite passes.
-- [ ] No deployment or old-project resources were reused.
+- [x] Full `python manage.py test` suite passes.
+- [x] No deployment or old-project resources were reused.

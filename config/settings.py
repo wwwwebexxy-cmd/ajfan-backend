@@ -77,6 +77,7 @@ LOGIN_URL = "/ajifan-documents/login/"
 LOGIN_REDIRECT_URL = "/ajifan-documents/"
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework.authentication.BasicAuthentication",
         "rest_framework.authentication.SessionAuthentication",
     ],
     "DEFAULT_PERMISSION_CLASSES": [
