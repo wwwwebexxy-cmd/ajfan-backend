@@ -1,11 +1,12 @@
 from django.contrib.auth import get_user_model
 from django.db import transaction
+from django.utils import timezone
 from rest_framework import serializers
 
 from customers.models import Customer
 from services.models import Service
 
-from .models import SalesInvoice, SalesInvoiceItem
+from .models import InvoiceNumberReservation, SalesInvoice, SalesInvoiceItem
 
 
 User = get_user_model()
@@ -67,6 +68,7 @@ class SalesInvoiceItemSerializer(serializers.ModelSerializer):
 
 class SalesInvoiceSerializer(serializers.ModelSerializer):
     invoice_number = serializers.SerializerMethodField()
+    reservation_token = serializers.CharField(write_only=True, required=False)
     customer_name = serializers.CharField(source="customer.name", read_only=True)
     customer_email = serializers.EmailField(source="customer.email", read_only=True)
     staff_name = serializers.SerializerMethodField()
@@ -85,6 +87,7 @@ class SalesInvoiceSerializer(serializers.ModelSerializer):
         fields = (
             "id",
             "invoice_number",
+            "reservation_token",
             "invoice_date",
             "customer",
             "customer_name",
@@ -116,6 +119,20 @@ class SalesInvoiceSerializer(serializers.ModelSerializer):
         )
 
     def validate(self, attrs):
+        reservation_token = attrs.pop("reservation_token", None)
+        if self.instance is None:
+            request = self.context.get("request")
+            reservation = InvoiceNumberReservation.objects.filter(
+                token=reservation_token,
+                reserved_by=request.user if request else None,
+                used_at__isnull=True,
+                expires_at__gt=timezone.now(),
+            ).first()
+            if reservation is None:
+                raise serializers.ValidationError(
+                    {"reservation_token": "Generate a fresh invoice number before saving."}
+                )
+            self._invoice_number_reservation = reservation
         if attrs.get("discount_amount", 0) < 0:
             raise serializers.ValidationError(
                 {"discount_amount": "Discount amount cannot be negative."}
@@ -166,9 +183,19 @@ class SalesInvoiceSerializer(serializers.ModelSerializer):
     @transaction.atomic
     def create(self, validated_data):
         items_data = validated_data.pop("items")
-        invoice = SalesInvoice.objects.create(**validated_data)
+        reservation = getattr(self, "_invoice_number_reservation", None)
+        if reservation is None:
+            raise serializers.ValidationError(
+                {"reservation_token": "Generate a fresh invoice number before saving."}
+            )
+        invoice = SalesInvoice.objects.create(
+            invoice_number_value=reservation.number,
+            **validated_data,
+        )
         self._create_items(invoice, items_data)
         self._validate_and_recalculate(invoice)
+        reservation.used_at = timezone.now()
+        reservation.save(update_fields=("used_at",))
         return invoice
 
     @transaction.atomic

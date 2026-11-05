@@ -1,4 +1,5 @@
 from decimal import Decimal
+from uuid import uuid4
 
 from django.conf import settings
 from django.db import models
@@ -9,6 +10,12 @@ from services.models import Service
 
 
 class SalesInvoice(models.Model):
+    invoice_number_value = models.PositiveIntegerField(
+        unique=True,
+        null=True,
+        blank=True,
+        editable=False,
+    )
     invoice_date = models.DateField()
     customer = models.ForeignKey(
         Customer,
@@ -42,7 +49,8 @@ class SalesInvoice(models.Model):
 
     @property
     def invoice_number(self):
-        return f"{self.pk:03d}" if self.pk is not None else ""
+        value = self.invoice_number_value or self.pk
+        return f"{value:03d}" if value is not None else ""
 
     def recalculate_totals(self, *, save=True):
         self.subtotal = sum(
@@ -67,6 +75,29 @@ class SalesInvoice(models.Model):
         self.is_deleted = True
         self.deleted_at = timezone.now()
         self.save(update_fields=("is_deleted", "deleted_at", "updated_at"))
+
+
+class InvoiceNumberSequence(models.Model):
+    id = models.PositiveSmallIntegerField(primary_key=True, default=1, editable=False)
+    next_number = models.PositiveIntegerField(default=1)
+
+    def __str__(self):
+        return f"Next sales invoice number: {self.next_number}"
+
+
+class InvoiceNumberReservation(models.Model):
+    number = models.PositiveIntegerField(unique=True)
+    token = models.UUIDField(default=uuid4, unique=True, editable=False)
+    reserved_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    expires_at = models.DateTimeField()
+    used_at = models.DateTimeField(null=True, blank=True)
+
+    class Meta:
+        ordering = ("-created_at",)
+
+    def __str__(self):
+        return f"Reserved sales invoice number: {self.number:03d}"
 
 
 class SalesInvoiceItem(models.Model):
