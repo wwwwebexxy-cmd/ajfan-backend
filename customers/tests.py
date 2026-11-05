@@ -139,6 +139,25 @@ class CustomerApiTests(TestCase):
         self.assertEqual(list_response.status_code, 200)
         self.assertNotIn(customer.id, [item["id"] for item in list_response.data])
 
+    def test_authenticated_admin_can_edit_customer(self):
+        self.authenticate()
+        customer = Customer.objects.create(
+            name="Before Edit",
+            email="edit@example.com",
+            phone="6666666666",
+        )
+
+        response = self.client.patch(
+            f"/api/customers/{customer.id}/",
+            {"name": "After Edit", "iban": "AE070331234567890123456"},
+            format="json",
+        )
+
+        self.assertEqual(response.status_code, 200)
+        customer.refresh_from_db()
+        self.assertEqual(customer.name, "After Edit")
+        self.assertEqual(customer.iban, "AE070331234567890123456")
+
     def test_admin_can_open_customer_list(self):
         Customer.objects.create(
             name="Admin Visible Customer",

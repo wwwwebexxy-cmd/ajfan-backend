@@ -17,7 +17,7 @@ class CustomerListCreateView(generics.ListCreateAPIView):
         return CustomerCreateSerializer
 
 
-class CustomerDetailView(generics.RetrieveDestroyAPIView):
+class CustomerDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Customer.objects.filter(is_deleted=False)
     serializer_class = CustomerDetailSerializer
     permission_classes = (IsAdminUser,)

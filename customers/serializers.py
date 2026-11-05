@@ -28,8 +28,7 @@ class CustomerCreateSerializer(serializers.ModelSerializer):
 
 
 class CustomerDetailSerializer(CustomerCreateSerializer):
-    class Meta(CustomerCreateSerializer.Meta):
-        read_only_fields = CustomerCreateSerializer.Meta.fields
+    pass
 
 
 class CustomerListSerializer(serializers.ModelSerializer):

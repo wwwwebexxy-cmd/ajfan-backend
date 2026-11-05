@@ -21,6 +21,7 @@ The API requires authentication. `POST /api/customers/` creates a customer;
 timestamps. Bank and account fields, including SWIFT address, IBAN, and TRN, are
 accepted on create but are not exposed in the list response.
 Use `GET /api/customers/<id>/` for the complete customer details and
+`PATCH /api/customers/<id>/` to edit a customer. Use
 `DELETE /api/customers/<id>/` to remove a customer.
 Deletion is soft delete: the database record is retained and marked deleted,
 while active customer lists no longer include it.

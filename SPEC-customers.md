@@ -43,6 +43,8 @@ record.
   first.
 - `GET /api/customers/<id>/` returns HTTP `200` with the complete customer
   record for an authenticated admin.
+- `PATCH /api/customers/<id>/` updates the supplied customer fields and returns
+  HTTP `200` with the updated record.
 - `DELETE /api/customers/<id>/` soft-deletes the customer and returns HTTP
   `204`; the record remains in the database with deletion metadata but is
   excluded from active list/detail responses.
@@ -63,6 +65,7 @@ record.
 - The admin customer list shows name, email, and phone.
 - The admin customer list can be filtered instantly by name, email, or phone.
 - The admin can view complete customer details and soft-delete a customer.
+- The admin can edit customer details.
 - No existing project deployment settings, credentials, data, domains, or
   server configuration are copied into this project.
 
