@@ -9,6 +9,7 @@ urlpatterns = [
     path("api/customers/", include("customers.urls")),
     path("api/services/", include("services.urls")),
     path("api/sales-invoices/", include("sales.urls")),
+    path("api/government-invoices/", include("government_invoices.urls")),
 ]
 
 if settings.DEBUG:
