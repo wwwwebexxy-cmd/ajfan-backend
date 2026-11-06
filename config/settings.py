@@ -21,6 +21,7 @@ INSTALLED_APPS = [
     "services",
     "sales",
     "government_invoices",
+    "quotations",
 ]
 
 MIDDLEWARE = [
