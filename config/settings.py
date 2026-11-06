@@ -23,6 +23,7 @@ INSTALLED_APPS = [
     "government_invoices",
     "quotations",
     "customer_documents",
+    "reminders",
 ]
 
 MIDDLEWARE = [
