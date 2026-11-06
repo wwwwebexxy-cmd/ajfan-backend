@@ -5,6 +5,7 @@ from django.test import TestCase
 from rest_framework.test import APIClient
 
 from customers.models import Customer
+from reminders.models import Reminder
 
 from .models import CustomerDocument
 
@@ -90,3 +91,43 @@ class CustomerDocumentApiTests(TestCase):
         document = CustomerDocument.objects.get(pk=document_id)
         self.assertTrue(document.is_deleted)
         self.assertEqual(self.client.get("/api/customer-documents/").data, [])
+
+    def test_document_creates_reminder_ten_days_before_expiry(self):
+        self.authenticate()
+
+        response = self.client.post("/api/customer-documents/", self.payload(), format="json")
+
+        self.assertEqual(response.status_code, 201)
+        document = CustomerDocument.objects.get(pk=response.data["id"])
+        reminder = Reminder.objects.get(source_document=document)
+        self.assertEqual(reminder.due_date, document.expiry_date - timedelta(days=10))
+        self.assertEqual(reminder.reminder_title, "Document expiry: Trade License")
+
+    def test_document_expiry_update_syncs_the_same_reminder(self):
+        self.authenticate()
+        create_response = self.client.post("/api/customer-documents/", self.payload(), format="json")
+        document_id = create_response.data["id"]
+        original_reminder = Reminder.objects.get(source_document_id=document_id)
+        new_expiry = date.today() + timedelta(days=120)
+
+        response = self.client.patch(
+            f"/api/customer-documents/{document_id}/",
+            {"expiry_date": new_expiry.isoformat()},
+            format="json",
+        )
+
+        self.assertEqual(response.status_code, 200)
+        reminder = Reminder.objects.get(source_document_id=document_id)
+        self.assertEqual(reminder.id, original_reminder.id)
+        self.assertEqual(reminder.due_date, new_expiry - timedelta(days=10))
+
+    def test_deleting_document_deactivates_its_automatic_reminder(self):
+        self.authenticate()
+        create_response = self.client.post("/api/customer-documents/", self.payload(), format="json")
+        document_id = create_response.data["id"]
+
+        response = self.client.delete(f"/api/customer-documents/{document_id}/")
+
+        self.assertEqual(response.status_code, 204)
+        reminder = Reminder.objects.get(source_document_id=document_id)
+        self.assertTrue(reminder.is_deleted)

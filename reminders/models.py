@@ -12,6 +12,13 @@ class Reminder(models.Model):
         on_delete=models.PROTECT,
         related_name="reminders",
     )
+    source_document = models.OneToOneField(
+        "customer_documents.CustomerDocument",
+        on_delete=models.CASCADE,
+        related_name="reminder",
+        null=True,
+        blank=True,
+    )
     notes = models.TextField(blank=True)
     is_deleted = models.BooleanField(default=False)
     deleted_at = models.DateTimeField(null=True, blank=True)
