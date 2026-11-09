@@ -95,8 +95,8 @@ MEDIA_ROOT = BASE_DIR / "media"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 AUTH_USER_MODEL = "accounts.User"
-LOGIN_URL = "/ajifan-documents/login/"
-LOGIN_REDIRECT_URL = "/ajifan-documents/"
+LOGIN_URL = "/ajfan-documents/login/"
+LOGIN_REDIRECT_URL = "/ajfan-documents/"
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework.authentication.BasicAuthentication",

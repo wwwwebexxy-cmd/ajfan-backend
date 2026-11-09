@@ -25,7 +25,7 @@ discount, and received amount. Customers and services must be active records.
 
 ## Frontend behavior
 
-The `/ajifan-documents` admin workspace contains a Sales Invoice sidebar view.
+The `/ajfan-documents` admin workspace contains a Sales Invoice sidebar view.
 It supports customer and service dropdowns, repeated service lines, automatic
 fee prefilling from the selected service, payment summary, staff payment
 selection, search, view, edit, and soft delete.

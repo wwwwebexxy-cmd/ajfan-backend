@@ -30,7 +30,7 @@ and future requirements are outside this first delivery.
 The current approved slice is deliberately smaller than the full initiative:
 
 - Customer create/add and customer list APIs.
-- Django admin customer management at `/ajifan-documents/`.
+- Django admin customer management at `/ajfan-documents/`.
 - Email/password login screen supplied by Django admin at that path.
 
 Customer edit, API token login, and logout remain subsequent

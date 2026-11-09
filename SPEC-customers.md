@@ -5,7 +5,7 @@
 Create the first independent AJFAN backend slice in `D:\ajfan-backend` using
 Django and Django REST Framework. An authenticated admin user must be able to
 create customer records and list existing records. Django admin must be
-available at `/ajifan-documents/` with email/password login and customer
+available at `/ajfan-documents/` with email/password login and customer
 management.
 
 This slice does not implement customer edit screens, API token login, logout,
@@ -59,7 +59,7 @@ record.
 
 ## Admin contract
 
-- `GET /ajifan-documents/` shows the Django admin login page when unauthenticated.
+- `GET /ajfan-documents/` shows the Django admin login page when unauthenticated.
 - The admin login accepts email and password.
 - After login, the admin can add and list customers.
 - The admin customer list shows name, email, and phone.
@@ -116,7 +116,7 @@ requirements.txt          Runtime dependencies
 
 - A fresh checkout installs from `requirements.txt` and passes `python manage.py check`.
 - The test suite proves customer create/list behavior and admin email login.
-- `/ajifan-documents/` is the only admin route exposed by this slice.
+- `/ajfan-documents/` is the only admin route exposed by this slice.
 - No old project names, domains, IP addresses, API URLs, credentials, or
   deployment configuration are present in the new project.
 

@@ -1,11 +1,13 @@
 from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
-from django.urls import include, path
+from django.urls import include, path, re_path
+from django.views.generic import RedirectView
 
 
 urlpatterns = [
-    path("ajifan-documents/", admin.site.urls),
+    path("ajfan-documents/", admin.site.urls),
+    re_path(r"^ajifan-documents/?(?P<path>.*)$", RedirectView.as_view(url="/ajfan-documents/%(path)s", permanent=True)),
     path("api/customers/", include("customers.urls")),
     path("api/services/", include("services.urls")),
     path("api/sales-invoices/", include("sales.urls")),

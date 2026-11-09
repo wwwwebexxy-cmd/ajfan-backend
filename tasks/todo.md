@@ -1,7 +1,7 @@
 # AJFAN Customer Backend Tasks
 
 - [x] Task 1: Bootstrap Django project and email-based admin login
-  - Acceptance: custom email user, `/ajifan-documents/` admin route, admin login tests.
+  - Acceptance: custom email user, `/ajfan-documents/` admin route, admin login tests.
   - Verify: focused tests and `python manage.py check`.
   - Dependencies: None.
 

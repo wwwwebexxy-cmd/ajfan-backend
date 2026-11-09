@@ -4,7 +4,7 @@
 
 Build the first independent AJFAN Django/DRF backend slice in
 `D:\ajfan-backend`. The slice provides an email/password Django admin at
-`/ajifan-documents/` and a protected Customer create/list API.
+`/ajfan-documents/` and a protected Customer create/list API.
 
 ## Architecture decisions
 
@@ -17,7 +17,7 @@ Build the first independent AJFAN Django/DRF backend slice in
   from an environment variable with a safe local fallback.
 - Use DRF `ListCreateAPIView` with `IsAuthenticated`; validation remains in the
   serializer boundary.
-- Expose admin under `/ajifan-documents/` and do not expose the default
+- Expose admin under `/ajfan-documents/` and do not expose the default
   `/admin/` route.
 
 ## Task list
@@ -26,7 +26,7 @@ Build the first independent AJFAN Django/DRF backend slice in
 
 - [x] Task 1: Bootstrap Django project and email-based admin login
   - Acceptance: project checks pass; custom user uses email login; admin is
-    mounted at `/ajifan-documents/`; an admin user can log in with email and
+    mounted at `/ajfan-documents/`; an admin user can log in with email and
     password.
   - Verify: focused Django auth/admin tests and `python manage.py check`.
   - Files: `manage.py`, `config/*`, `accounts/*`, `requirements.txt`.
@@ -53,7 +53,7 @@ Build the first independent AJFAN Django/DRF backend slice in
 |---|---|---|
 | Changing the user model after initial migrations | High | Define `AUTH_USER_MODEL` before the first migration. |
 | Customer bank/account fields are sensitive | High | Keep them behind authentication, avoid logging payloads, and do not expose them in list responses. |
-| Admin URL ambiguity | Medium | Use the explicitly requested `/ajifan-documents/` route and document it. |
+| Admin URL ambiguity | Medium | Use the explicitly requested `/ajfan-documents/` route and document it. |
 
 ## Out of scope
 

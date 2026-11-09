@@ -166,11 +166,11 @@ class CustomerApiTests(TestCase):
         )
         self.client.force_login(self.user)
 
-        response = self.client.get("/ajifan-documents/customers/customer/")
+        response = self.client.get("/ajfan-documents/customers/customer/")
 
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Admin Visible Customer")
 
-        add_response = self.client.get("/ajifan-documents/customers/customer/add/")
+        add_response = self.client.get("/ajfan-documents/customers/customer/add/")
 
         self.assertEqual(add_response.status_code, 200)

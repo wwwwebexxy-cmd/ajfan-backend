@@ -14,11 +14,11 @@ class AdminLoginTests(TestCase):
         )
 
     def test_admin_path_redirects_anonymous_user_to_login(self):
-        response = self.client.get("/ajifan-documents/", follow=True)
+        response = self.client.get("/ajfan-documents/", follow=True)
 
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Log in")
-        self.assertIn("/ajifan-documents/login/", response.redirect_chain[-1][0])
+        self.assertIn("/ajfan-documents/login/", response.redirect_chain[-1][0])
 
     def test_admin_accepts_email_and_password(self):
         response = self.client.post(

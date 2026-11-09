@@ -13,7 +13,7 @@ python manage.py runserver
 
 Use the email and password created by `createsuperuser` at:
 
-- Admin: `http://127.0.0.1:8000/ajifan-documents/`
+- Admin: `http://127.0.0.1:8000/ajfan-documents/`
 - Customer API: `http://127.0.0.1:8000/api/customers/`
 
 The API requires authentication. `POST /api/customers/` creates a customer;
