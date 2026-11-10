@@ -4,6 +4,7 @@ from django.test import TestCase
 from rest_framework.test import APIClient
 
 from customers.models import Customer
+from reminders.models import Reminder
 from services.models import Service
 
 from .models import SalesInvoice
@@ -107,6 +108,19 @@ class SalesInvoiceApiTests(TestCase):
 
         invoice = SalesInvoice.objects.get()
         self.assertEqual(invoice.invoice_number, "001")
+
+    def test_invoice_item_expiry_dates_create_automatic_reminders(self):
+        self.authenticate()
+
+        response = self.client.post("/api/sales-invoices/", self.payload(), format="json")
+
+        self.assertEqual(response.status_code, 201)
+        reminders = Reminder.objects.filter(customer=self.customer, is_deleted=False)
+        self.assertEqual(reminders.count(), 2)
+        self.assertEqual(
+            {reminder.reminder_title for reminder in reminders},
+            {"Sales invoice 001: Visa Service expiry", "Sales invoice 001: Typing Service expiry"},
+        )
 
     def test_admin_can_update_invoice_items_and_amounts(self):
         self.authenticate()

@@ -5,6 +5,7 @@ from django.test import TestCase
 from rest_framework.test import APIClient
 
 from customers.models import Customer
+from reminders.models import Reminder
 from services.models import Service
 
 from .models import Quotation
@@ -85,6 +86,19 @@ class QuotationApiTests(TestCase):
         self.assertEqual(response.data["items"][0]["line_total"], "250.00")
         self.assertEqual(response.data["items"][0]["start_date"], date.today().isoformat())
         self.assertNotIn("vat", {key.lower() for key in response.data})
+
+    def test_item_end_dates_create_automatic_reminders(self):
+        self.authenticate()
+
+        response = self.client.post("/api/quotations/", self.payload(), format="json")
+
+        self.assertEqual(response.status_code, 201)
+        reminders = Reminder.objects.filter(customer=self.customer, is_deleted=False)
+        self.assertEqual(reminders.count(), 2)
+        self.assertEqual(
+            {reminder.reminder_title for reminder in reminders},
+            {"Quotation 001: Visa Service expiry", "Quotation 001: Typing Service expiry"},
+        )
 
     def test_quotation_numbers_are_sequential(self):
         self.authenticate()

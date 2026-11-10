@@ -5,6 +5,7 @@ from django.test import TestCase
 from rest_framework.test import APIClient
 
 from customers.models import Customer
+from reminders.models import Reminder
 from services.models import Service
 
 from .models import GovernmentInvoice
@@ -89,6 +90,19 @@ class GovernmentInvoiceApiTests(TestCase):
         self.assertEqual(response.data["payment_mode"], "bank")
         self.assertEqual(response.data["items"][0]["line_total"], "250.00")
         self.assertNotIn("vat", response.data)
+
+    def test_invoice_item_end_dates_create_automatic_reminders(self):
+        self.authenticate()
+
+        response = self.client.post("/api/government-invoices/", self.payload(), format="json")
+
+        self.assertEqual(response.status_code, 201)
+        reminders = Reminder.objects.filter(customer=self.customer, is_deleted=False)
+        self.assertEqual(reminders.count(), 2)
+        self.assertEqual(
+            {reminder.reminder_title for reminder in reminders},
+            {"Govt. invoice 001: Government Service expiry", "Govt. invoice 001: Government Typing expiry"},
+        )
 
     def test_admin_can_create_sequential_zero_padded_numbers(self):
         self.authenticate()
