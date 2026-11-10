@@ -2,6 +2,7 @@ from datetime import date, timedelta
 
 from django.contrib.auth import get_user_model
 from django.test import TestCase
+from django.utils import timezone
 from rest_framework.test import APIClient
 
 from customers.models import Customer
@@ -102,6 +103,18 @@ class CustomerDocumentApiTests(TestCase):
         reminder = Reminder.objects.get(source_document=document)
         self.assertEqual(reminder.due_date, document.expiry_date - timedelta(days=10))
         self.assertEqual(reminder.reminder_title, "Document expiry: Trade License")
+
+    def test_document_expiring_within_ten_days_reminds_immediately(self):
+        self.authenticate()
+        today = timezone.localdate()
+        payload = self.payload()
+        payload["expiry_date"] = (today + timedelta(days=5)).isoformat()
+
+        response = self.client.post("/api/customer-documents/", payload, format="json")
+
+        self.assertEqual(response.status_code, 201)
+        reminder = Reminder.objects.get(source_document_id=response.data["id"])
+        self.assertEqual(reminder.due_date, today)
 
     def test_document_expiry_update_syncs_the_same_reminder(self):
         self.authenticate()
